@@ -2,8 +2,9 @@ package main
 
 import (
 	"embed"
+	"flag"
 	"log"
-	"os"
+	"path/filepath"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
@@ -19,11 +20,17 @@ var assets embed.FS
 // main function serves as the application's entry point. It initializes the application, creates a window,
 // runs the application and logs any error that might occur.
 //
-// The project folder to upload may be passed as the first command line argument.
+// Startup configuration is supplied by App Builder through command-line flags.
 func main() {
+	settings := Settings{}
+	flag.StringVar(&settings.Project, "project", "", "Path to the project .appDef file")
+	flag.StringVar(&settings.Theme, "theme", "light", "Dialog theme: light or dark")
+	flag.StringVar(&settings.Language, "lang", "en", "Dialog language ID")
+	flag.Parse()
+
 	projectService := &ProjectService{}
-	if len(os.Args) > 1 {
-		projectService.folder = os.Args[1]
+	if settings.Project != "" {
+		projectService.folder = filepath.Dir(settings.Project)
 	}
 
 	// Create a new Wails application by providing the necessary options.
@@ -36,6 +43,7 @@ func main() {
 		Description: "Upload App Builder project data to the support system",
 		Services: []application.Service{
 			application.NewService(projectService),
+			application.NewService(&SettingsService{settings: settings}),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
@@ -51,7 +59,7 @@ func main() {
 	// 'BackgroundColour' is the background colour of the window.
 	// 'URL' is the URL that will be loaded into the webview.
 	app.Window.NewWithOptions(application.WebviewWindowOptions{
-		Title:  "Upload Support Data",
+		Title:     "Upload Support Data",
 		Width:     800,
 		Height:    640,
 		MinWidth:  640,

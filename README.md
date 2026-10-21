@@ -47,6 +47,14 @@ Run the app in development mode with hot reload for both the Go backend and the 
 wails3 dev
 ```
 
+## Command-line options
+
+```bash
+sdc -project "/path/to/project.appDef" -theme dark -lang fr
+```
+
+All flags are optional: omit `-project` to choose a folder in the wizard; theme defaults to `light` and language to `en`. Theme and language are exposed through `SettingsService.GetSettings()` for the theming and localization features. Use `-help` for usage.
+
 ## Building
 
 To produce a production build for your current platform:
