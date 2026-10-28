@@ -24,7 +24,7 @@ var assets embed.FS
 func main() {
 	settings := Settings{}
 	flag.StringVar(&settings.Project, "project", "", "Path to the project .appDef file")
-	flag.StringVar(&settings.Theme, "theme", "light", "Dialog theme: light or dark")
+	flag.StringVar(&settings.Theme, "theme", "", "Dialog theme: light or dark (default: OS preference)")
 	flag.StringVar(&settings.Language, "lang", "en", "Dialog language ID")
 	flag.Parse()
 

@@ -53,7 +53,7 @@ wails3 dev
 sdc -project "/path/to/project.appDef" -theme dark -lang fr
 ```
 
-All flags are optional: omit `-project` to choose a folder in the wizard; theme defaults to `light` and language to `en`. Theme and language are exposed through `SettingsService.GetSettings()` for the theming and localization features. Use `-help` for usage.
+All flags are optional: omit `-project` to choose a folder in the wizard; theme defaults to the OS preference and language to `en`. `-theme dark` selects DaisyUI’s `dim` theme and `-theme light` selects `corporate`. Settings are exposed through `SettingsService.GetSettings()`. Use `-help` for usage.
 
 ## Building
 
